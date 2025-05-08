@@ -107,43 +107,43 @@ export default function Dashboard() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-4 transition-colors">
+    <div className="min-h-screen bg-gradient-to-r from-teal-400 via-blue-500 to-purple-600 p-6 text-white">
       {/* NAVIGATION */}
-      <header className="bg-gradient-to-r from-indigo-500 to-purple-600 dark:from-indigo-700 dark:to-purple-800 text-white p-4 rounded-lg flex justify-between items-center mb-6 shadow">
-        <h1 className="text-xl font-bold">Hai, {user.email}</h1>
+      <header className="flex justify-between items-center mb-8 bg-gradient-to-r from-teal-500 to-purple-600 p-4 rounded-xl shadow-lg">
+        <h1 className="text-2xl font-bold">Hai, {user.email}</h1>
         <button
           onClick={() => setDarkMode(!darkMode)}
-          className="bg-white text-indigo-600 px-3 py-1 rounded hover:bg-gray-100 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 transition"
+          className="bg-white text-teal-600 px-4 py-2 rounded-full hover:bg-teal-100 transition"
         >
           {darkMode ? "☀️ Light" : "🌙 Dark"}
         </button>
       </header>
 
       {/* STATISTICS + CHART */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex justify-around">
-          <div>
-            <h3 className="text-gray-500 dark:text-gray-400">Total Tugas</h3>
-            <p className="text-2xl font-bold dark:text-white">{totalCount}</p>
-          </div>
-          <div>
-            <h3 className="text-gray-500 dark:text-gray-400">Selesai</h3>
-            <p className="text-2xl font-bold dark:text-white">{completedCount}</p>
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
+          <div className="flex justify-between items-center">
+            <div>
+              <h3 className="text-gray-500 dark:text-gray-400">Total Tugas</h3>
+              <p className="text-3xl font-semibold">{totalCount}</p>
+            </div>
+            <div>
+              <h3 className="text-gray-500 dark:text-gray-400">Selesai</h3>
+              <p className="text-3xl font-semibold">{completedCount}</p>
+            </div>
           </div>
         </div>
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-          <ResponsiveContainer width="100%" height={200}>
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
+          <ResponsiveContainer width="100%" height={250}>
             <PieChart>
               <Pie
                 data={chartData}
                 dataKey="value"
                 nameKey="name"
-                outerRadius={80}
+                outerRadius={90}
                 fill="#8884d8"
                 label
                 isAnimationActive={true}
-                animationDuration={800}
-                animationEasing="ease-out"
               >
                 {chartData.map((_, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -156,19 +156,19 @@ export default function Dashboard() {
       </section>
 
       {/* INPUT FORM */}
-      <section className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow mb-6">
-        <h2 className="text-lg font-semibold mb-4 dark:text-white">Tambah Tugas Baru</h2>
-        <form onSubmit={addTodo} className="flex flex-col sm:flex-row gap-2">
+      <section className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md mb-8">
+        <h2 className="text-xl font-semibold mb-4">Tambah Tugas Baru</h2>
+        <form onSubmit={addTodo} className="flex gap-4">
           <input
             type="text"
             value={newTodo}
             onChange={(e) => setNewTodo(e.target.value)}
             placeholder="Masukkan tugas baru"
-            className="flex-1 p-2 border rounded focus:outline-none focus:ring focus:border-indigo-300 dark:bg-gray-700 dark:text-white"
+            className="flex-1 p-3 border rounded-lg focus:outline-none focus:ring focus:ring-teal-300 dark:bg-gray-700 dark:text-white"
           />
           <button
             type="submit"
-            className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 transition"
+            className="bg-teal-500 text-white px-6 py-3 rounded-lg hover:bg-teal-600 transition"
           >
             Tambah
           </button>
@@ -176,12 +176,12 @@ export default function Dashboard() {
       </section>
 
       {/* TODO LIST */}
-      <section className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-        <h2 className="text-lg font-semibold mb-4 dark:text-white">Daftar Tugas</h2>
+      <section className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
+        <h2 className="text-xl font-semibold mb-4">Daftar Tugas</h2>
         {todos.length === 0 ? (
           <p className="text-gray-500 dark:text-gray-400">Belum ada tugas. Tambahkan tugas baru!</p>
         ) : (
-          <div className="space-y-2">
+          <div className="space-y-4">
             {todos.map((todo) => (
               <TodoItem
                 key={todo.id}
@@ -194,11 +194,11 @@ export default function Dashboard() {
         )}
       </section>
 
-      {/* LOGOUT BUTTON AT BOTTOM */}
-      <div className="mt-6 text-center">
+      {/* LOGOUT BUTTON */}
+      <div className="mt-8 text-center">
         <button
           onClick={logout}
-          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+          className="bg-red-500 text-white px-6 py-3 rounded-full hover:bg-red-600 transition"
         >
           Logout
         </button>

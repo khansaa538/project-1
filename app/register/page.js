@@ -1,67 +1,66 @@
 "use client";
 
 import { useState } from "react";
-import { useAuth } from "../components/AuthProvider";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { auth } from "../lib/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
-export default function Register() {
+export default function RegisterPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { register } = useAuth();
-  const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     setError("");
-
     try {
-      await register(email, password);
+      await createUserWithEmailAndPassword(auth, email, password);
       router.push("/dashboard");
     } catch (err) {
-      setError("Registrasi gagal: " + err.message);
+      setError(err.message);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 p-4">
-      <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 w-full max-w-sm">
-        <h1 className="text-2xl font-bold mb-4 text-center dark:text-white">Register</h1>
-        {error && <p className="text-red-500 mb-4 text-sm">{error}</p>}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-gray-700 dark:text-gray-300 mb-1">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-indigo-300 dark:bg-gray-700 dark:text-white"
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 dark:text-gray-300 mb-1">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-indigo-300 dark:bg-gray-700 dark:text-white"
-            />
-          </div>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-teal-400 via-blue-500 to-purple-600">
+      <div className="bg-white dark:bg-gray-900 p-10 rounded-3xl shadow-2xl w-full max-w-md">
+        <h1 className="text-3xl font-extrabold mb-6 text-center dark:text-white text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-500 to-teal-400">
+          Daftar Akun
+        </h1>
+        <form onSubmit={handleRegister} className="space-y-5">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            className="w-full p-3 border rounded-xl focus:outline-none focus:ring-4 focus:ring-teal-300 dark:bg-gray-800 dark:text-white"
+            required
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            className="w-full p-3 border rounded-xl focus:outline-none focus:ring-4 focus:ring-teal-300 dark:bg-gray-800 dark:text-white"
+            required
+          />
+          {error && <p className="text-red-500 text-sm">{error}</p>}
           <button
             type="submit"
-            className="w-full bg-indigo-500 text-white py-2 rounded hover:bg-indigo-600 transition"
+            className="w-full bg-gradient-to-r from-lime-400 to-fuchsia-500 text-white p-3 rounded-xl font-semibold shadow hover:scale-105 transition"
           >
             Daftar
           </button>
         </form>
-        <p className="text-center text-sm mt-4 dark:text-gray-300">
+        <p className="mt-5 text-center text-sm dark:text-gray-300">
           Sudah punya akun?{" "}
-          <Link href="/login" className="text-indigo-500 hover:underline">
-            Login
-          </Link>
+          <span
+            onClick={() => router.push("/login")}
+            className="text-lime-200 cursor-pointer hover:underline"
+          >
+            Login di sini
+          </span>
         </p>
       </div>
     </div>

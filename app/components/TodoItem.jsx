@@ -1,17 +1,24 @@
 export default function TodoItem({ todo, onToggle, onDelete }) {
   return (
-    <div className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-700 rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition">
-      <div
-        onClick={() => onToggle(todo.id)}
-        className={`cursor-pointer flex-1 ${
-          todo.completed ? "line-through text-gray-400" : "text-gray-800 dark:text-white"
-        }`}
-      >
-        {todo.text}
+    <div className="flex items-center justify-between bg-white/40 dark:bg-gray-700/60 backdrop-blur p-3 rounded-xl shadow hover:scale-[1.02] transform transition">
+      <div className="flex items-center gap-3">
+        <input
+          type="checkbox"
+          checked={todo.completed}
+          onChange={() => onToggle(todo.id)}
+          className="w-5 h-5 accent-indigo-500"
+        />
+        <span
+          className={`text-lg ${
+            todo.completed ? "line-through text-gray-400 dark:text-gray-500" : "text-gray-800 dark:text-white"
+          }`}
+        >
+          {todo.text}
+        </span>
       </div>
       <button
         onClick={onDelete}
-        className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition"
+        className="bg-red-500 text-white px-3 py-1 rounded-lg shadow hover:bg-red-600 hover:scale-105 transform transition"
       >
         Hapus
       </button>
